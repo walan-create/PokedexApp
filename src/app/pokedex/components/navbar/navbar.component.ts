@@ -8,22 +8,25 @@ import { PokedexService } from '../../services/pokedex.service';
   templateUrl: './navbar.component.html',
 })
 export class NavbarComponent {
+
   pokedexService = inject(PokedexService);
   pokemonsApp = signal<PokemonApp[]>([]); //Gifs a mostrar
+  showOnlyShiny = signal(false); // Controla si se muestran solo los shiny
 
   onSearchType(query: string) {
-    this.pokedexService.searchPokemons(query)
-
+    if (query === 'all') {
+      this.pokedexService.loadAllPokemons();
+    } else {
+      this.pokedexService.searchPokemonsByType(query);
+    }
   }
 
-  load() {
-    this.pokedexService.loadTrendingPokemons()
-}
+  onSearchOne(query: string){
+    this.pokedexService.searchPokemonsByName(query);
+  }
 
-  onSearchOne() {
-    this.pokedexService.searchPokemonByName().subscribe((response) => {
-      //this.searchedPokemon.set(response);
-      console.log(response);
-    });
+  onToggleShiny(event: Event) {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    this.showOnlyShiny.set(isChecked); // Actualiza el estado del interruptor
   }
 }

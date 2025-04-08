@@ -1,5 +1,8 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { PokeResponse } from '../interface/pokeapi.interfaces';
+import {
+  PokeGeneralResponse,
+  PokeResponse,
+} from '../interface/pokeapi.interfaces';
 import { PokemonApp } from '../interface/pokemon.interface';
 import { forkJoin, map, Observable, switchMap } from 'rxjs';
 import { PokemonMapper } from '../mapper/pokemon.mapper';
@@ -7,59 +10,70 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class PokedexService {
-
   private http = inject(HttpClient); //Contiene peticiones para CRUD
 
-  trendingPokemons = signal<PokemonApp[]>([]);
+  trendingPokemons = signal<PokemonApp[]>([]); //Lista de Pokemons a mostrar
+  private pokemonRequests: Observable<any>[] = []; // Lista compartida de peticiones
 
-  //Metodo que hace una petición HTTP ALL de los pokemons y los asigna a trendingPokemon
-  loadTrendingPokemons() {
-    //Especificamos ruta a hacer la petición
+  loadAllPokemons() {
     this.http
-      .get<PokeResponse>(`https://pokeapi.co/api/v2/pokemon`, {
+      .get<PokeGeneralResponse>(`https://pokeapi.co/api/v2/pokemon`, {
         params: {
           limit: 20,
         },
       })
       .subscribe((respuesta) => {
-        const pokemonList = respuesta.pokemon;
-
-        const pokemonRequests = pokemonList.map((pokemon) =>
-          this.http.get(pokemon.pokemon.url) // Petición para obtener detalles de cada Pokémon
+        // Llenamos la lista compartida de peticiones
+        this.pokemonRequests = respuesta.results.map((pokemon) =>
+          this.http.get(pokemon.url)
         );
 
-        forkJoin(pokemonRequests).subscribe((detailedPokemons) => {
-          // Mapeamos ss
-          const pokemonApps = PokemonMapper.mapDetailedPokemonsToPokemonAppArray(detailedPokemons);
-          this.trendingPokemons.set(pokemonApps);
-        });
+        // Llamamos al método para procesar las peticiones
+        this.processPokemonRequests();
       });
   }
 
-  searchPokemonByName(): Observable<PokemonApp>{
-    return this.http.get<PokemonApp>(`https://pokeapi.co/api/v2/pokemon/pikachu`)
-  }
-
-  searchPokemons(query: string) {
-    //Especificamos ruta a hacer la petición
+  searchPokemonsByType(query: string) {
     this.http
-      .get<PokeResponse>(`https://pokeapi.co/api/v2/type/${query}`, {
-        params: {
-          limit: 20,
-        },
-      })
+      .get<PokeResponse>(`https://pokeapi.co/api/v2/type/${query}`, {})
       .subscribe((respuesta) => {
-        const pokemonList = respuesta.pokemon;
-
-        const pokemonRequests = pokemonList.map((pokemon) =>
-          this.http.get(pokemon.pokemon.url) // Petición para obtener detalles de cada Pokémon
+        // Llenamos la lista compartida de peticiones
+        this.pokemonRequests = respuesta.pokemon.map((pokemon) =>
+          this.http.get(pokemon.pokemon.url)
         );
 
-        forkJoin(pokemonRequests).subscribe((detailedPokemons) => {
-          // Mapeamos ss
-          const pokemonApps = PokemonMapper.mapDetailedPokemonsToPokemonAppArray(detailedPokemons);
-          this.trendingPokemons.set(pokemonApps);
-        });
+        // Llamamos al método para procesar las peticiones
+        this.processPokemonRequests();
       });
+  }
+
+  searchPokemonsByName(query: string) {
+    const newRequest = this.http.get(
+      `https://pokeapi.co/api/v2/pokemon/${query}`
+    );
+
+    // Reasignamos pokemonRequests con el nuevo request
+    this.pokemonRequests = [newRequest];
+
+    // Procesamos las peticiones
+    this.processPokemonRequests();
+  }
+
+  showShinys(){
+    
+  }
+  //-------------------------------------------------------
+
+  private processPokemonRequests() {
+    if (this.pokemonRequests.length === 0) {
+      console.warn('No hay peticiones en pokemonRequests para procesar.');
+      return;
+    }
+
+    forkJoin(this.pokemonRequests).subscribe((detailedPokemons) => {
+      const pokemonApps =
+        PokemonMapper.mapDetailedPokemonsToPokemonAppArray(detailedPokemons);
+      this.trendingPokemons.set(pokemonApps);
+    });
   }
 }

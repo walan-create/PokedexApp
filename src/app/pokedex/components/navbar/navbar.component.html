@@ -13,25 +13,39 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
       <div class="navbar-nav me-auto mb-2 mb-lg-0">
-        <button type="button" (click)="load()" class="btn btn-secondary mx-1">Todos</button>
+        <button type="button" (click)="onSearchType('all')" class="btn btn-secondary mx-1">Todos</button>
         <button type="button" (click)="onSearchType('water')" class="btn btn-primary mx-1">Agua</button>
         <button type="button" (click)="onSearchType('fire')" class="btn btn-danger mx-1">Fuego</button>
+        <button type="button" (click)="onSearchType('flying')" class="btn btn-info mx-1">Aire</button>
         <button type="button" (click)="onSearchType('electric')" class="btn btn-warning mx-1">Eléctrico</button>
+        <button type="button" (click)="onSearchType('ground')" class="btn btn-dark mx-1">Tierra</button>
         <button type="button" (click)="onSearchType('grass')" class="btn btn-success mx-1">Planta</button>
-        <button type="button" (click)="onSearchType('flying')" class="btn btn-light mx-1">Aire</button>
       </div>
+
+      <div class="form-check form-switch">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          role="switch"
+          id="switchCheckDefault"
+          (change)="onToggleShiny($event)"
+        />
+        <label class="form-check-label" for="switchCheckDefault">Shiny</label>
+      </div>
+
       <form class="d-flex" role="search">
         <input
           type="text"
           placeholder="Buscar Pokemons"
           class=" border border-gray-300 rounded-md p-2 mx-2"
-          (keyup.enter)="onSearchType(txtSearch.value)"
+          (keyup.enter)="onSearchOne(txtSearch.value)"
           #txtSearch
         />
         <!--  -->
 
-        <button class="btn btn-outline-success" type="button" (click)="onSearchOne()">Search</button>
+        <button class="btn btn-outline-success" (click)="onSearchOne(txtSearch.value)" type="button" >Search</button>
       </form>
     </div>
   </div>

@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { PokemonApp } from '../../../interface/pokemon.interface';
+import { TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'list-item',
-  imports: [],
+  imports: [TitleCasePipe],
   templateUrl: './list-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
