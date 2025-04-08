@@ -1,0 +1,38 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">PokeDex</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div class="navbar-nav me-auto mb-2 mb-lg-0">
+        <button type="button" (click)="load()" class="btn btn-secondary mx-1">Todos</button>
+        <button type="button" (click)="onSearchType('water')" class="btn btn-primary mx-1">Agua</button>
+        <button type="button" (click)="onSearchType('fire')" class="btn btn-danger mx-1">Fuego</button>
+        <button type="button" (click)="onSearchType('electric')" class="btn btn-warning mx-1">Eléctrico</button>
+        <button type="button" (click)="onSearchType('grass')" class="btn btn-success mx-1">Planta</button>
+        <button type="button" (click)="onSearchType('flying')" class="btn btn-light mx-1">Aire</button>
+      </div>
+      <form class="d-flex" role="search">
+        <input
+          type="text"
+          placeholder="Buscar Pokemons"
+          class=" border border-gray-300 rounded-md p-2 mx-2"
+          (keyup.enter)="onSearchType(txtSearch.value)"
+          #txtSearch
+        />
+        <!--  -->
+
+        <button class="btn btn-outline-success" type="button" (click)="onSearchOne()">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
