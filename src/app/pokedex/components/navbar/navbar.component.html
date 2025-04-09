@@ -1,118 +1,56 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">PokeDex</a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <div class="navbar-nav me-auto mb-2 mb-lg-0">
-        <button
-          type="button"
-          (click)="onSearchType('all')"
-          class="btn btn-secondary mx-1"
-        >
-          Todos
-        </button>
-        <button
-          type="button"
-          (click)="onSearchType('water')"
-          class="btn btn-primary mx-1"
-        >
-          Agua
-        </button>
-        <button
-          type="button"
-          (click)="onSearchType('fire')"
-          class="btn btn-danger mx-1"
-        >
-          Fuego
-        </button>
-        <button
-          type="button"
-          (click)="onSearchType('flying')"
-          class="btn btn-info mx-1"
-        >
-          Aire
-        </button>
-        <button
-          type="button"
-          (click)="onSearchType('electric')"
-          class="btn btn-warning mx-1"
-        >
-          Eléctrico
-        </button>
-        <button
-          type="button"
-          (click)="onSearchType('ground')"
-          class="btn btn-dark mx-1"
-        >
-          Tierra
-        </button>
-        <button
-          type="button"
-          (click)="onSearchType('grass')"
-          class="btn btn-success mx-1"
-        >
-          Planta
-        </button>
-        <button
-          type="button"
-          (click)="onSearchType('psychic')"
-          class="btn btn-outline-primary mx-1"
-        >
-          Psíquico
-        </button>
-      </div>
+<nav class="navbar navbar-expand-lg border-bottom py-3 bg-light shadow-sm">
+  <div class="container-fluid d-flex flex-column align-items-center text-center">
 
-      <div class="form-check form-switch">
-        <input
-          class="form-check-input"
-          type="checkbox"
-          role="switch"
-          id="switchCheckDefault"
-          (change)="toggleLegendaryMode($event)"
-        />
-        <label class="form-check-label" for="switchCheckDefault">Legendary</label>
-      </div>
 
-      <div class="form-check form-switch">
-        <input
-          class="form-check-input"
-          type="checkbox"
-          role="switch"
-          id="switchCheckDefault"
-          (change)="toggleShinyMode($event)"
-        />
-        <label class="form-check-label" for="switchCheckDefault">Shiny</label>
-      </div>
+    <img src="/assets/logo/logo.png" alt="logo" style="height: 250px;" class="mb-5" />
 
-      <form class="d-flex" role="search" (submit)="preventFormSubmit($event)">
-        <input
-          type="text"
-          placeholder="Buscar Pokemons"
-          class="border border-gray-300 rounded-md p-2 mx-2"
-          (keyup.enter)="onSearch(txtSearch.value)"
-          #txtSearch
-        />
-
-        <!--  -->
-
-        <button
-          class="btn btn-secondary"
-          (click)="onSearch(txtSearch.value)"
-          type="button"
-        >
-          Buscar
-        </button>
-      </form>
+    <div class="d-flex flex-wrap justify-content-center gap-2 mb-3">
+      <button class="btn btn-outline-secondary" (click)="onSearchType('all')">Todos</button>
+      <button class="btn btn-primary" (click)="onSearchType('water')">Agua</button>
+      <button class="btn btn-danger" (click)="onSearchType('fire')">Fuego</button>
+      <button class="btn btn-info" (click)="onSearchType('flying')">Aire</button>
+      <button class="btn btn-warning" (click)="onSearchType('electric')">Eléctrico</button>
+      <button class="btn btn-dark" (click)="onSearchType('ground')">Tierra</button>
+      <button class="btn btn-success" (click)="onSearchType('grass')">Planta</button>
+      <button class="btn btn-secondary" (click)="onSearchType('psychic')">Psíquico</button>
     </div>
+
+
+    <div class="collapse navbar-collapse show" id="navbarCentered">
+
+      <div class="d-flex justify-content-center gap-3 mb-2">
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" id="legendary" (change)="toggleLegendaryMode($event)" />
+          <label class="form-check-label" for="legendary">Legendary</label>
+        </div>
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" id="shiny" (change)="toggleShinyMode($event)" />
+          <label class="form-check-label" for="shiny">Shiny</label>
+        </div>
+      </div>
+    </div>
+
+    <form class="" role="search" (submit)="preventFormSubmit($event)">
+
+      <div class="input-group mb-3">
+        <input
+        type="text"
+        class="form-control"
+        placeholder="Busca un pokemón"
+        aria-label="Busca un pokemón"
+        aria-describedby="button-addon2"
+        (keyup)="onSearch(txtSearch.value)"
+        #txtSearch
+        >
+        <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="onSearch(txtSearch.value)">Buscar</button>
+      </div>
+
+    </form>
+
+
   </div>
 </nav>
+
+
+
+

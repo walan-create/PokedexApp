@@ -1,60 +1,10 @@
-.pokemon-card {
-  width: 250px;
-  background: linear-gradient(to bottom right, #f8f8f8, #ececec);
-  border-radius: 16px;
-  border: 2px solid #333;
-  overflow: hidden;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-  margin: 1rem auto;
-  font-family: 'Verdana', sans-serif;
-  position: relative;
-  transition: transform 0.3s;
-}
-.pokemon-card:hover {
-  transform: scale(1.05);
+.tilt-hover {
+  transition: transform 0.3s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
-.pokemon-header {
-  background: #fbd743;
-  padding: 0.5rem;
-  display: flex;
-  justify-content: space-between;
-  font-weight: bold;
-  border-bottom: 2px solid #333;
+.tilt-hover:hover {
+  transform: scale(1.05) rotateX(5deg) rotateY(5deg);
 }
 
-.pokemon-header .type {
-  background-color: #58abf6;
-  color: white;
-  padding: 0 6px;
-  border-radius: 6px;
-  font-size: 0.8rem;
-}
-
-.pokemon-img {
-  width: 100%;
-  padding: 1rem;
-  background: #fff;
-  object-fit: contain;
-}
-
-.pokemon-body {
-  padding: 0.5rem 1rem 1rem 1rem;
-  font-size: 0.9rem;
-}
-
-.pokemon-body .legend-tag {
-  color: #d63384;
-  font-weight: bold;
-}
-
-.stats {
-  margin-top: 0.5rem;
-  border-top: 1px solid #ccc;
-  padding-top: 0.5rem;
-}
-
-.pokemon-card.legendary {
-  border-color: gold;
-  background: linear-gradient(to bottom right, #fff3cd, #ffeeba);
-}

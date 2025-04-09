@@ -16,16 +16,16 @@ import {
 import { PokemonMapper } from '../mapper/pokemon.mapper';
 import { HttpClient } from '@angular/common/http';
 
-
 const API_URL = 'https://pokeapi.co/api/v2/';
-
 
 @Injectable({ providedIn: 'root' })
 export class PokedexService {
   private http = inject(HttpClient); //Contiene peticiones para CRUD
 
-  trendingPokemons = signal<PokemonApp[]>([]); //Lista de Pokemons a mostrar
+  allPokemons = signal<PokemonApp[]>([]); // Lista base de todos los Pokémon
+  trendingPokemons = signal<PokemonApp[]>([]); // Lista de Pokémon mostrados
   private pokemonRequests: Observable<any>[] = []; // Lista compartida de peticiones
+
   shinyMode = signal<boolean>(false); // Rastrea estado del checkbox
   legendaryMode = signal<boolean>(false);
 
@@ -45,7 +45,7 @@ export class PokedexService {
     this.http
       .get<PokeGeneralResponse>(`${API_URL}pokemon`, {
         params: {
-          limit: 20,
+          limit: 50,
         },
       })
       .subscribe((respuesta) => {
@@ -73,14 +73,22 @@ export class PokedexService {
       });
   }
 
-  searchPokemonsByName(query: string) {
-    const newRequest = this.http.get(`${API_URL}pokemon/${query}`);
+  searchPokemonByName(query: string) {
+    /* Este metodo llamaría directamente a la API con el pokemon pasado
+   const newRequest = this.http.get(`${API_URL}pokemon/${query}`);
 
     // Reasignamos pokemonRequests con el nuevo request
     this.pokemonRequests = [newRequest];
 
     // Procesamos las peticiones
     this.processPokemonRequests();
+    */
+    const filteredPokemons = this.trendingPokemons().filter((pokemon) =>
+      pokemon.name.toLowerCase().includes(query.toLowerCase())
+    );
+
+    // Actualizamos la lista de Pokémon mostrados con los resultados filtrados
+    this.trendingPokemons.set(filteredPokemons);
   }
 
   //--------------------- Métodos auxiliares Para tratar la Data----------------------------------
@@ -110,6 +118,9 @@ export class PokedexService {
       .subscribe((enhancedPokemons) => {
         const pokemonApps =
           PokemonMapper.mapDetailedPokemonsToPokemonAppArray(enhancedPokemons);
+        // Guardamos la lista completa en allPokemons
+        this.allPokemons.set(pokemonApps);
+        // Inicializamos trendingPokemons con todos los Pokémon
         this.trendingPokemons.set(pokemonApps);
       });
   }

@@ -21,10 +21,13 @@ export class NavbarComponent {
   }
 
   onSearch(query: string) {
-    if (query === null || query ==='') {
-      return
+    if (!query || query.trim() === '') {
+      // Si el input está vacío, mostramos todos los Pokémon
+      this.pokedexService.trendingPokemons.set(this.pokedexService.allPokemons());
+      return;
     }
-    this.pokedexService.searchPokemonsByName(query);
+
+    this.pokedexService.searchPokemonByName(query);
   }
   preventFormSubmit(event: Event) {
     event.preventDefault(); // Previene el comportamiento predeterminado del formulario
@@ -32,13 +35,13 @@ export class NavbarComponent {
 
   toggleShinyMode(event: Event) {
     const isChecked = (event.target as HTMLInputElement).checked;
-    console.log("Shiny ",isChecked)
+    console.log('Shiny ', isChecked);
     this.pokedexService.shinyMode.set(isChecked); // Actualiza el estado del checkbox
   }
 
   toggleLegendaryMode(event: Event) {
     const isChecked = (event.target as HTMLInputElement).checked;
-    console.log("Legendary ",isChecked)
+    console.log('Legendary ', isChecked);
     this.pokedexService.legendaryMode.set(isChecked); // Actualiza el estado del checkbox
   }
 }

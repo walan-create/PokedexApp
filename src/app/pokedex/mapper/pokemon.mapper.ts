@@ -16,22 +16,22 @@ export class PokemonMapper {
         speed: pokemon.stats[5].base_stat,
       },
       isLegendary: pokemon.isLegendary, //Aqui hay que meter la info
-      isShiny: pokemon.sprites.front_shiny != null ? true : false,
+      //Ojo a la verificacion de si es shiny
+      isShiny: pokemon.sprites.other['official-artwork'].front_default != null ? true : false,
       url: pokemon.url,
       imgUrl:
         pokemon.sprites.front_default != null
-          ? pokemon.sprites.front_default
-      //  ? pokemon.sprites.other.home.front_default
-      //  ? detailedPokemon.sprites.other['showdown'].front_default
-      //  ? detailedPokemon.sprites.other['official-artwork'].front_default
+            // ? pokemon.sprites.front_default
+            // ? pokemon.sprites.other['showdown'].front_default
+            ? pokemon.sprites.other['official-artwork'].front_default
           : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhInCrk0waR4AJjMAcQ8_XV7v9AYNChOA3Pw&s', // Asignamos la URL de la imagen
       shinyImgUrl:
         pokemon.sprites.front_shiny != null
-          ? pokemon.sprites.front_shiny
-      //  ? pokemon.sprites.other.home.front_shiny
-      //  ? detailedPokemon.sprites.front_shiny
+            // ? pokemon.sprites.front_shiny
+            // ? pokemon.sprites.other['showdown'].front_shiny
+             ? pokemon.sprites.other['official-artwork'].front_shiny
+
           : '', // Asignamos la URL de la imagen shiny
-      // shinyImgUrl: detailedPokemon.sprites.front_shiny ?? 'No shiny', // Asignamos la URL de la imagen
     };
   }
 
