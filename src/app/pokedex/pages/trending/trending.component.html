@@ -1,6 +1,10 @@
 <div class="py-5">
-  <!-- Pasa como parametro al hijo una lista de strings  -->
-  <list [pokemonsApp]="pokedexService.trendingPokemons()" />
-  <!-- <list [pokemonsApp]="pokemonsPrueba()" /> -->
+  <!-- Pasa como parametro al hijo una lista de PokemonApp
+   y un booleano del shiny mode  -->
+  <list
+  [pokemonsApp]="pokedexService.trendingPokemons()"
+  [shinyMode]="pokedexService.shinyMode()"
+  [legendaryMode]="pokedexService.legendaryMode()"
+  />
 
 </div>

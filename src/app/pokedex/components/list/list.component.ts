@@ -20,15 +20,7 @@ export class ListComponent {
 
   //Recibe como parametro la lista dada por el padre
   pokemonsApp = input.required<PokemonApp[]>();
+  shinyMode = input.required<boolean>();
+  legendaryMode = input.required<boolean>();
 
-  // Inyecta el estado del interruptor desde el NavbarComponent
-  navbarComponent = inject(NavbarComponent);
-  showOnlyShiny = this.navbarComponent.showOnlyShiny;
-
-  // Computa la lista de Pokémon a mostrar según el estado del interruptor
-  filteredPokemons = computed(() =>
-    this.showOnlyShiny()
-      ? this.pokemonsApp().filter((pokemon) => pokemon.isShiny)
-      : this.pokemonsApp()
-  );
 }

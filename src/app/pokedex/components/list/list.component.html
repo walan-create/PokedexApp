@@ -1,8 +1,13 @@
-<div class="row g-4 px-4">
+<div class="row g-4 px-4 bg-info">
   <!-- Bucle que recorre las direcciones de las imagenes (strings) y pasa como parametro una por una -->
-  @for (pokemon of filteredPokemons(); track pokemon) {
+  @for (pokemon of pokemonsApp(); track pokemon) {
   <div class="col">
-    <list-item [pokemonApp] = "pokemon" />
+    <list-item
+    [pokemonApp]="pokemon"
+    [shinyModeOn]="shinyMode()"
+    [legendaryModeOn]="legendaryMode()"
+    />
   </div>
   }
+
 </div>

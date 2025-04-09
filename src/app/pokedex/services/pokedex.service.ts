@@ -4,9 +4,19 @@ import {
   PokeResponse,
 } from '../interface/pokeapi.interfaces';
 import { PokemonApp } from '../interface/pokemon.interface';
-import { forkJoin, map, Observable, switchMap } from 'rxjs';
+import {
+  catchError,
+  forkJoin,
+  map,
+  Observable,
+  of,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { PokemonMapper } from '../mapper/pokemon.mapper';
 import { HttpClient } from '@angular/common/http';
+
+const API_URL = 'https://pokeapi.co/api/v2/';
 
 @Injectable({ providedIn: 'root' })
 export class PokedexService {
@@ -14,10 +24,15 @@ export class PokedexService {
 
   trendingPokemons = signal<PokemonApp[]>([]); //Lista de Pokemons a mostrar
   private pokemonRequests: Observable<any>[] = []; // Lista compartida de peticiones
+  shinyMode = signal<boolean>(false); // Rastrea estado del checkbox
+  legendaryMode = signal<boolean>(false); 
+
+
+  //--------------------- Métodos auxiliares ----------------------------------
 
   loadAllPokemons() {
     this.http
-      .get<PokeGeneralResponse>(`https://pokeapi.co/api/v2/pokemon`, {
+      .get<PokeGeneralResponse>(`${API_URL}pokemon`, {
         params: {
           limit: 20,
         },
@@ -35,7 +50,7 @@ export class PokedexService {
 
   searchPokemonsByType(query: string) {
     this.http
-      .get<PokeResponse>(`https://pokeapi.co/api/v2/type/${query}`, {})
+      .get<PokeResponse>(`${API_URL}type/${query}`)
       .subscribe((respuesta) => {
         // Llenamos la lista compartida de peticiones
         this.pokemonRequests = respuesta.pokemon.map((pokemon) =>
@@ -48,9 +63,7 @@ export class PokedexService {
   }
 
   searchPokemonsByName(query: string) {
-    const newRequest = this.http.get(
-      `https://pokeapi.co/api/v2/pokemon/${query}`
-    );
+    const newRequest = this.http.get(`${API_URL}pokemon/${query}`);
 
     // Reasignamos pokemonRequests con el nuevo request
     this.pokemonRequests = [newRequest];
@@ -59,10 +72,7 @@ export class PokedexService {
     this.processPokemonRequests();
   }
 
-  showShinys(){
-    
-  }
-  //-------------------------------------------------------
+  //--------------------- Métodos auxiliares Para tratar la Data----------------------------------
 
   private processPokemonRequests() {
     if (this.pokemonRequests.length === 0) {
@@ -70,10 +80,32 @@ export class PokedexService {
       return;
     }
 
-    forkJoin(this.pokemonRequests).subscribe((detailedPokemons) => {
-      const pokemonApps =
-        PokemonMapper.mapDetailedPokemonsToPokemonAppArray(detailedPokemons);
-      this.trendingPokemons.set(pokemonApps);
-    });
+    forkJoin(this.pokemonRequests)
+      .pipe(
+        switchMap((detailedPokemons) => {
+          //Arñadimos el atributo booleano isLegendary obtenido de una subconsulta para mandarselo al mapper
+          const speciesRequests = detailedPokemons.map((pokemon: any) =>
+            this.fetchPokemonSpecies(pokemon.species.name).pipe(
+              map((speciesData) => ({
+                ...pokemon,
+                isLegendary: speciesData.is_legendary, // Añadimos el dato al objeto
+              }))
+            )
+          );
+
+          return forkJoin(speciesRequests);
+        })
+      )
+      .subscribe((enhancedPokemons) => {
+        const pokemonApps =
+          PokemonMapper.mapDetailedPokemonsToPokemonAppArray(enhancedPokemons);
+        this.trendingPokemons.set(pokemonApps);
+      });
+  }
+
+
+  private fetchPokemonSpecies(name: string): Observable<any> {
+    // Si el nombre contiene un '-', tomamos solo la parte antes del guion
+    return this.http.get(`${API_URL}pokemon-species/${name}`);
   }
 }

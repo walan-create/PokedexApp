@@ -1,21 +1,32 @@
-<div>
-  <!-- Asigna el valor obtenido como parametro para buscar la imagen -->
-  <div class="card" style="width: 18rem">
-    <img [src]="pokemonApp().imgUrl" class="card-img-top" alt="..." />
-    
-    <div class="card-body">
-      <h5 class="card-title">{{ pokemonApp().name | titlecase }}</h5>
-    </div>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">
-        <b>TYPE: </b>
-        <span class="">{{ pokemonApp().type | titlecase }}</span>
-      </li>
-      <li class="list-group-item">
-        <b>TYPE: </b>
-        <span class="">{{ pokemonApp().type | titlecase }}</span>
-      </li>
+<div class="bg-black">
+  <!-- Control Filtro de pokemons (Shiny y Legendario) -->
+  @switch (legendaryModeOn()) {
 
-    </ul>
-  </div>
+    @case (true) {
+      @switch (shinyModeOn()) {
+        @case (true) {
+          @if (pokemonApp().isShiny && pokemonApp().isLegendary) {
+            <list-card [pokemon]="pokemonApp()"></list-card>
+          }
+        }
+        @case (false) {
+          @if (pokemonApp().isLegendary) {
+            <list-card [pokemon]="pokemonApp()"></list-card>
+          }
+        }
+      }
+    }
+    @case (false) {
+      @switch (shinyModeOn()) {
+        @case (true) {
+          @if (pokemonApp().isShiny) {<list-card [pokemon]="pokemonApp()"></list-card>}
+        }
+        @case (false) {
+          <list-card [pokemon]="pokemonApp()"></list-card>
+        }
+      }
+    }
+  }
 </div>
+
+

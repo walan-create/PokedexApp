@@ -8,7 +8,6 @@ import { PokedexService } from '../../services/pokedex.service';
   templateUrl: './navbar.component.html',
 })
 export class NavbarComponent {
-
   pokedexService = inject(PokedexService);
   pokemonsApp = signal<PokemonApp[]>([]); //Gifs a mostrar
   showOnlyShiny = signal(false); // Controla si se muestran solo los shiny
@@ -21,12 +20,25 @@ export class NavbarComponent {
     }
   }
 
-  onSearchOne(query: string){
+  onSearch(query: string) {
+    if (query === null || query ==='') {
+      return
+    }
     this.pokedexService.searchPokemonsByName(query);
   }
+  preventFormSubmit(event: Event) {
+    event.preventDefault(); // Previene el comportamiento predeterminado del formulario
+  }
 
-  onToggleShiny(event: Event) {
+  toggleShinyMode(event: Event) {
     const isChecked = (event.target as HTMLInputElement).checked;
-    this.showOnlyShiny.set(isChecked); // Actualiza el estado del interruptor
+    console.log("Shiny ",isChecked)
+    this.pokedexService.shinyMode.set(isChecked); // Actualiza el estado del checkbox
+  }
+
+  toggleLegendaryMode(event: Event) {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    console.log("Legendary ",isChecked)
+    this.pokedexService.legendaryMode.set(isChecked); // Actualiza el estado del checkbox
   }
 }
