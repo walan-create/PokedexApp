@@ -2,7 +2,7 @@
   <!-- Pasa como parametro al hijo una lista de PokemonApp
    y un booleano del shiny mode  -->
   <list
-  [pokemonsApp]="pokedexService.trendingPokemons()"
+  [pokemonsApp]="pokedexService.filteredPokemons()"
   [shinyMode]="pokedexService.shinyMode()"
   [legendaryMode]="pokedexService.legendaryMode()"
   />

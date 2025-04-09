@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ListComponent } from "../../components/list/list.component";
 import { PokedexService } from '../../services/pokedex.service';
-import { PokemonApp } from '../../interface/pokemon.interface';
 
 
 @Component({

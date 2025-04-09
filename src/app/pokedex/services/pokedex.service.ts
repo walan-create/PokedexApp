@@ -1,4 +1,4 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import {
   PokeGeneralResponse,
   PokeResponse,
@@ -16,7 +16,9 @@ import {
 import { PokemonMapper } from '../mapper/pokemon.mapper';
 import { HttpClient } from '@angular/common/http';
 
+
 const API_URL = 'https://pokeapi.co/api/v2/';
+
 
 @Injectable({ providedIn: 'root' })
 export class PokedexService {
@@ -25,8 +27,17 @@ export class PokedexService {
   trendingPokemons = signal<PokemonApp[]>([]); //Lista de Pokemons a mostrar
   private pokemonRequests: Observable<any>[] = []; // Lista compartida de peticiones
   shinyMode = signal<boolean>(false); // Rastrea estado del checkbox
-  legendaryMode = signal<boolean>(false); 
+  legendaryMode = signal<boolean>(false);
 
+  //Computed permite crear valores derivados de otro signal (trendingPokemon)
+  filteredPokemons = computed(() => {
+    const pokemons = this.trendingPokemons(); //Lista actual de porkemones
+    if (this.legendaryMode()) {
+      //SI el modo legendario está activado filtra
+      return pokemons.filter((pokemon) => pokemon.isLegendary);
+    }
+    return pokemons; // Si el modo legendario está desactivado, devuelve todos los Pokémon.
+  });
 
   //--------------------- Métodos auxiliares ----------------------------------
 
@@ -102,7 +113,6 @@ export class PokedexService {
         this.trendingPokemons.set(pokemonApps);
       });
   }
-
 
   private fetchPokemonSpecies(name: string): Observable<any> {
     // Si el nombre contiene un '-', tomamos solo la parte antes del guion

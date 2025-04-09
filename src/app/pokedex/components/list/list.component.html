@@ -1,4 +1,4 @@
-<div class="row g-4 px-4 bg-info">
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
   <!-- Bucle que recorre las direcciones de las imagenes (strings) y pasa como parametro una por una -->
   @for (pokemon of pokemonsApp(); track pokemon) {
   <div class="col">
@@ -11,3 +11,17 @@
   }
 
 </div>
+
+<!-- <div class="container py-4">
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+    @for (pokemon of pokemonsApp(); track pokemon) {
+      <div class="col">
+        <list-item
+          [pokemonApp]="pokemon"
+          [shinyModeOn]="shinyMode()"
+          [legendaryModeOn]="legendaryMode()"
+        ></list-item>
+      </div>
+    }
+  </div>
+</div> -->

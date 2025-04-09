@@ -1,25 +1,95 @@
-<div class="card" style="width: 18rem">
+<!-- <div [class.border-warning]="pokemon().isLegendary" class="card">
   <img
     [src]="pokemon().isShiny && shinyModeOn ? pokemon().shinyImgUrl : pokemon().imgUrl"
     class="card-img-top"
     alt="..."
   />
-  <!-- <img [src]="pokemon().imgUrl" class="card-img-top" alt="..." /> -->
   <div class="card-body">
     <h5 class="card-title">{{ pokemon().name | titlecase }}</h5>
   </div>
   <ul class="list-group list-group-flush">
+
     <li class="list-group-item">
       <b>TIPO: </b>
       <span>{{ pokemon().type | titlecase }}</span>
     </li>
+
     <li class="list-group-item">
-      <b>HABILIDADES: </b>
-      <span>{{ pokemon().stats.hp }}</span>
+      <b>EXPERIENCIA: </b>
+      <span>{{ pokemon().base_experience }}</span>
     </li>
+
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><b>STATS: </b></li>
+      <li class="list-group-item list-group-item-sucess"><b>Vida: </b> {{ pokemon().stats.hp }}</li>
+      <li class="list-group-item"><b>Ataque: </b> {{ pokemon().stats.attack }}</li>
+      <li class="list-group-item"><b>Defensa: </b>{{ pokemon().stats.defense }}</li>
+      <li class="list-group-item"><b>Velocidad: </b>{{ pokemon().stats.speed }}</li>
+    </ul>
+
+
     <li class="list-group-item">
       <b>LEGENDARIO: </b>
       <span>{{ pokemon().isLegendary }}</span>
     </li>
   </ul>
+</div> -->
+
+
+<!-- Minimalista problema desplazamiento es legendario -->
+<div
+  class="card shadow-sm mb-4"
+  [class.border-warning]="pokemon().isLegendary"
+  [class.border-3]="pokemon().isLegendary"
+>
+  <img
+    [src]="pokemon().isShiny && shinyModeOn ? pokemon().shinyImgUrl : pokemon().imgUrl"
+    class="card-img-top p-3"
+    alt="Imagen de {{ pokemon().name }}"
+  />
+  <div class="card-body text-center">
+    <h5 class="card-title fw-bold">{{ pokemon().name | titlecase }}</h5>
+    <p class="card-text">
+      <span class="badge bg-primary me-1">{{ pokemon().type | titlecase }}</span>
+      <span class="badge bg-secondary">EXP: {{ pokemon().base_experience }}</span>
+    </p>
+  </div>
+  <ul class="list-group list-group-flush text-start small">
+    <li class="list-group-item"><b class="badge bg-success">HP:</b> {{ pokemon().stats.hp }}</li>
+    <li class="list-group-item"><b>Ataque:</b> {{ pokemon().stats.attack }}</li>
+    <li class="list-group-item"><b>Defensa:</b> {{ pokemon().stats.defense }}</li>
+    <li class="list-group-item"><b>Velocidad:</b> {{ pokemon().stats.speed }}</li>
+    @if (pokemon().isLegendary) {
+      <li class="list-group-item">
+        🌟 Pokémon Legendario
+      </li>
+    }
+
+  </ul>
 </div>
+
+
+<!-- Simula carta pokemon (depende de estilos personalizados) -->
+<!-- <div class="pokemon-card" [class.legendary]="pokemon().isLegendary">
+  <div class="pokemon-header">
+    <h5>{{ pokemon().name | titlecase }}</h5>
+    <span class="type">{{ pokemon().type | titlecase }}</span>
+  </div>
+  <img
+    class="pokemon-img"
+    [src]="pokemon().isShiny && shinyModeOn ? pokemon().shinyImgUrl : pokemon().imgUrl"
+    alt="Imagen de {{ pokemon().name }}"
+  />
+  <div class="pokemon-body">
+    <p>EXP: {{ pokemon().base_experience }}</p>
+    @if (pokemon().isLegendary) {    <p class="legend-tag">✨ Legendario</p>
+  }
+    <div class="stats">
+      <p><b>HP:</b> {{ pokemon().stats.hp }}</p>
+      <p><b>ATK:</b> {{ pokemon().stats.attack }}</p>
+      <p><b>DEF:</b> {{ pokemon().stats.defense }}</p>
+      <p><b>SPD:</b> {{ pokemon().stats.speed }}</p>
+    </div>
+  </div>
+</div> -->
+

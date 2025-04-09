@@ -9,6 +9,7 @@ import { PokedexService } from '../../../../services/pokedex.service';
     TitleCasePipe
   ],
   templateUrl: './list-card.component.html',
+  styleUrl: './list-card.component.css'
 })
 export class ListCardComponent {
   pokedexService = inject(PokedexService);
