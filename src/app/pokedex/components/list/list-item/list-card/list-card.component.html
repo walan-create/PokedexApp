@@ -42,25 +42,28 @@
   <ul
     class="list-group list-group-flush text-start small animate__animated animate__fadeIn"
   >
-    <li class="list-group-item">
-      <b class="badge bg-success">Vida</b> {{ pokemon().stats.hp }}
-    </li>
-    <li class="list-group-item">
-      <b class="badge bg-danger">Ataque</b> {{ pokemon().stats.attack }}
-    </li>
-    <li class="list-group-item">
-      <b class="badge bg-secondary">Defensa</b> {{ pokemon().stats.defense }}
-    </li>
-    <li class="list-group-item">
-      <b class="badge bg-warning">Velocidad</b> {{ pokemon().stats.speed }}
-    </li>
-
-
     @if (pokemon().isLegendary) {
     <li class="list-group-item text-center">
       ✨ <span class="fw-bold text-warning">Pokémon Legendario</span> ✨
     </li>
     }
+
+    <li class="list-group-item d-flex justify-content-between">
+      <b class="badge bg-success">Vida</b>
+      <span>{{ pokemon().stats.hp }}</span>
+    </li>
+    <li class="list-group-item d-flex justify-content-between">
+      <b class="badge bg-danger">Ataque</b>
+      <span>{{ pokemon().stats.attack }}</span>
+    </li>
+    <li class="list-group-item d-flex justify-content-between">
+      <b class="badge bg-secondary">Defensa</b>
+      <span>{{ pokemon().stats.defense }}</span>
+    </li>
+    <li class="list-group-item d-flex justify-content-between">
+      <b class="badge bg-warning">Velocidad</b>
+      <span>{{ pokemon().stats.speed }}</span>
+    </li>
   </ul>
   }
 </div>
