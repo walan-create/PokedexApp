@@ -17,20 +17,19 @@ export class PokemonMapper {
       },
       isLegendary: pokemon.isLegendary, //Aqui hay que meter la info
       //Ojo a la verificacion de si es shiny
-      isShiny: pokemon.sprites.other['official-artwork'].front_default != null ? true : false,
+      isShiny: pokemon.sprites.other['official-artwork'].front_shiny != null ? true : false,
       url: pokemon.url,
       imgUrl:
-        pokemon.sprites.front_default != null
+        pokemon.sprites.other['official-artwork'].front_default != null
             // ? pokemon.sprites.front_default
             // ? pokemon.sprites.other['showdown'].front_default
             ? pokemon.sprites.other['official-artwork'].front_default
           : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhInCrk0waR4AJjMAcQ8_XV7v9AYNChOA3Pw&s', // Asignamos la URL de la imagen
       shinyImgUrl:
-        pokemon.sprites.front_shiny != null
+        pokemon.sprites.other['official-artwork'].front_shiny != null
             // ? pokemon.sprites.front_shiny
             // ? pokemon.sprites.other['showdown'].front_shiny
              ? pokemon.sprites.other['official-artwork'].front_shiny
-
           : '', // Asignamos la URL de la imagen shiny
     };
   }

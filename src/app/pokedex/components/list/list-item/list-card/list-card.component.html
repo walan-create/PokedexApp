@@ -27,7 +27,7 @@
       />
 
       <span class="badge bg-secondary"
-        >EXP: {{ pokemon().base_experience }}</span
+        >EXP <b>{{ pokemon().base_experience }}</b></span
       >
     </div>
 
@@ -54,6 +54,7 @@
     <li class="list-group-item">
       <b class="badge bg-warning">Velocidad</b> {{ pokemon().stats.speed }}
     </li>
+
 
     @if (pokemon().isLegendary) {
     <li class="list-group-item text-center">

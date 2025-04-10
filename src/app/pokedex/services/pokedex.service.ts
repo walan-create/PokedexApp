@@ -31,15 +31,25 @@ export class PokedexService {
 
   //Computed permite crear valores derivados de otro signal (trendingPokemon)
   filteredPokemons = computed(() => {
-    const pokemons = this.trendingPokemons(); //Lista actual de porkemones
+    const pokemons = this.trendingPokemons(); // Lista actual de Pokémon
+
+  //--------------------- Método de filtrado ----------------------------------
+
+    // Filtrar por modo legendario
+    let filtered = pokemons;
     if (this.legendaryMode()) {
-      //SI el modo legendario está activado filtra
-      return pokemons.filter((pokemon) => pokemon.isLegendary);
+        filtered = filtered.filter((pokemon) => pokemon.isLegendary);
     }
-    return pokemons; // Si el modo legendario está desactivado, devuelve todos los Pokémon.
+
+    // Filtrar por modo shiny
+    if (this.shinyMode()) {
+        filtered = filtered.filter((pokemon) => pokemon.isShiny);
+    }
+
+    return filtered; // Devuelve la lista filtrada según los modos activados
   });
 
-  //--------------------- Métodos auxiliares ----------------------------------
+  //--------------------- Métodos de Busqueda ----------------------------------
 
   loadAllPokemons() {
     this.http

@@ -19,6 +19,9 @@ export class ListCardComponent {
   get shinyModeOn() {
     return this.pokedexService.shinyMode(); // Accede al estado del servicio
   }
+  get legendaryModeOn() {
+    return this.pokedexService.legendaryMode(); // Accede al estado del servicio
+  }
 
   toggleStats(): void {
     this.showStats.update(value => !value);

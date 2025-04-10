@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, ElementRef, inject, signal, ViewChild } from '@angular/core';
 import { PokemonApp } from '../../interface/pokemon.interface';
 import { PokedexService } from '../../services/pokedex.service';
 
@@ -12,7 +12,12 @@ export class NavbarComponent {
   pokemonsApp = signal<PokemonApp[]>([]); //Gifs a mostrar
   showOnlyShiny = signal(false); // Controla si se muestran solo los shiny
 
+  @ViewChild('txtSearch') txtSearch!: ElementRef<HTMLInputElement>; // Referencia al input
+
   onSearchType(query: string) {
+    // Limpia el valor del input
+    if (this.txtSearch) this.txtSearch.nativeElement.value = '';
+    
     if (query === 'all') {
       this.pokedexService.loadAllPokemons();
     } else {
@@ -21,27 +26,39 @@ export class NavbarComponent {
   }
 
   onSearch(query: string) {
-    if (!query || query.trim() === '') {
+    // Convertimos el query a minúsculas y eliminamos espacios en blanco
+    const trimmedQuery = query.trim().toLowerCase();
+
+    if (!trimmedQuery) {
       // Si el input está vacío, mostramos todos los Pokémon
-      this.pokedexService.trendingPokemons.set(this.pokedexService.allPokemons());
+      this.pokedexService.trendingPokemons.set(
+        this.pokedexService.allPokemons()
+      );
       return;
     }
 
-    this.pokedexService.searchPokemonByName(query);
+    // Filtramos los Pokémon que coincidan con el query
+    const filteredPokemons = this.pokedexService
+      .allPokemons()
+      .filter((pokemon) => pokemon.name.toLowerCase().includes(trimmedQuery));
+
+    // Actualizamos la lista de Pokémon mostrados con los resultados filtrados
+    this.pokedexService.trendingPokemons.set(filteredPokemons);
   }
+
   preventFormSubmit(event: Event) {
     event.preventDefault(); // Previene el comportamiento predeterminado del formulario
   }
 
   toggleShinyMode(event: Event) {
     const isChecked = (event.target as HTMLInputElement).checked;
-    console.log('Shiny ', isChecked);
+    console.log('ShinyMode: ', isChecked);
     this.pokedexService.shinyMode.set(isChecked); // Actualiza el estado del checkbox
   }
 
   toggleLegendaryMode(event: Event) {
     const isChecked = (event.target as HTMLInputElement).checked;
-    console.log('Legendary ', isChecked);
+    console.log('LegendaryMode: ', isChecked);
     this.pokedexService.legendaryMode.set(isChecked); // Actualiza el estado del checkbox
   }
 }
