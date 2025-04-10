@@ -18,13 +18,16 @@
     <h4 class="card-title fw-bold">{{ pokemon().name | titlecase }}</h4>
 
     <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
-      <img
-        [src]="'/assets/type-icons/' + pokemon().type + '.png'"
-        [alt]="pokemon().type"
+
+      @for (type of pokemon().type; track $index) {
+        <img
+        [src]="'/assets/type-icons/' + type + '.png'"
+        [alt]="type"
         width="32"
         height="32"
-        title="{{ pokemon().type | titlecase }}"
+        title="{{ type | titlecase }}"
       />
+      }
 
       <span class="badge bg-secondary"
         >EXP <b>{{ pokemon().base_experience }}</b></span

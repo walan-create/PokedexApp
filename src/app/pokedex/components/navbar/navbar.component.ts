@@ -17,17 +17,19 @@ export class NavbarComponent {
   pokedexService = inject(PokedexService);
   pokemonsApp = signal<PokemonApp[]>([]); //Gifs a mostrar
   showOnlyShiny = signal(false); // Controla si se muestran solo los shiny
-
+  selectedType: string = ''; // Tipo seleccionado por defecto
   @ViewChild('txtSearch') txtSearch!: ElementRef<HTMLInputElement>; // Referencia al input
 
-  onSearchType(query: string) {
+  onSearchType(type: string) {
+    this.selectedType = type; // Actualiza el tipo seleccionado
+
     // Limpia el valor del input
     if (this.txtSearch) this.txtSearch.nativeElement.value = '';
 
-    if (query === 'all') {
+    if (type === 'all') {
       this.pokedexService.loadAllPokemons();
     } else {
-      this.pokedexService.searchPokemonsByType(query);
+      this.pokedexService.searchPokemonsByType(type);
     }
   }
 

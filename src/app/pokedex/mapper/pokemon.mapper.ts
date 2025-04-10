@@ -7,7 +7,7 @@ export class PokemonMapper {
   static mapDetailedPokemonToPokemonApp(pokemon: any): PokemonApp {
     return {
       name: pokemon.name,
-      type: pokemon.types[0].type.name,
+      type: pokemon.types.map((typeInfo: any) => typeInfo.type.name), // Convertimos los tipos en una lista de strings
       base_experience: pokemon.base_experience,
       stats: {
         hp: pokemon.stats[0].base_stat,

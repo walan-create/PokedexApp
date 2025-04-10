@@ -4,20 +4,75 @@
 
     <img src="/assets/logo/logo.png" alt="logo" style="height: 250px;" class="mb-5" />
 
-    <div class="d-flex flex-wrap justify-content-center gap-2 mb-3">
-      <button class="btn btn-outline-secondary" (click)="onSearchType('all')">Todos</button>
-      <button class="btn btn-primary" (click)="onSearchType('water')">Agua</button>
-      <button class="btn btn-danger" (click)="onSearchType('fire')">Fuego</button>
-      <button class="btn btn-info" (click)="onSearchType('flying')">Aire</button>
-      <button class="btn btn-warning" (click)="onSearchType('electric')">Eléctrico</button>
-      <button class="btn btn-dark" (click)="onSearchType('ground')">Tierra</button>
-      <button class="btn btn-success" (click)="onSearchType('grass')">Planta</button>
-      <button class="btn btn-secondary" (click)="onSearchType('psychic')">Psíquico</button>
+    <!-- Botones tipo -->
+    <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
+      <button
+        class="btn"
+        [class.btn-secondary]="selectedType === 'all'"
+        [class.btn-outline-secondary]="selectedType !== 'all'"
+        (click)="onSearchType('all')">
+        Todos
+      </button>
+      <button
+        class="btn rounded-circle"
+        [class.btn-primary]="selectedType === 'water'"
+        [class.btn-outline-primary]="selectedType !== 'water'"
+        (click)="onSearchType('water')"
+        style="width: 50px; height: 50px; padding: 0;">
+        <img src="/assets/type-icons/water.png" alt="Water" class="img-fluid" style="max-height: 32px;">
+      </button>
+      <button
+        class="btn rounded-circle"
+        [class.btn-danger]="selectedType === 'fire'"
+        [class.btn-outline-danger]="selectedType !== 'fire'"
+        (click)="onSearchType('fire')"
+        style="width: 50px; height: 50px; padding: 0;">
+        <img src="/assets/type-icons/fire.png" alt="Fire" class="img-fluid" style="max-height: 32px;">
+      </button>
+      <button
+        class="btn rounded-circle"
+        [class.btn-info]="selectedType === 'flying'"
+        [class.btn-outline-info]="selectedType !== 'flying'"
+        (click)="onSearchType('flying')"
+        style="width: 50px; height: 50px; padding: 0;">
+        <img src="/assets/type-icons/flying.png" alt="Flying" class="img-fluid" style="max-height: 32px;">
+      </button>
+      <button
+        class="btn rounded-circle"
+        [class.btn-warning]="selectedType === 'electric'"
+        [class.btn-outline-warning]="selectedType !== 'electric'"
+        (click)="onSearchType('electric')"
+        style="width: 50px; height: 50px; padding: 0;">
+        <img src="/assets/type-icons/electric.png" alt="Electric" class="img-fluid" style="max-height: 32px;">
+      </button>
+      <button
+        class="btn rounded-circle"
+        [class.btn-dark]="selectedType === 'ground'"
+        [class.btn-outline-dark]="selectedType !== 'ground'"
+        (click)="onSearchType('ground')"
+        style="width: 50px; height: 50px; padding: 0;">
+        <img src="/assets/type-icons/ground.png" alt="Ground" class="img-fluid" style="max-height: 32px;">
+      </button>
+      <button
+        class="btn rounded-circle"
+        [class.btn-success]="selectedType === 'grass'"
+        [class.btn-outline-success]="selectedType !== 'grass'"
+        (click)="onSearchType('grass')"
+        style="width: 50px; height: 50px; padding: 0;">
+        <img src="/assets/type-icons/grass.png" alt="Grass" class="img-fluid" style="max-height: 32px;">
+      </button>
+      <button
+        class="btn rounded-circle"
+        [class.btn-secondary]="selectedType === 'psychic'"
+        [class.btn-outline-secondary]="selectedType !== 'psychic'"
+        (click)="onSearchType('psychic')"
+        style="width: 50px; height: 50px; padding: 0;">
+        <img src="/assets/type-icons/psychic.png" alt="Psychic" class="img-fluid" style="max-height: 32px;">
+      </button>
     </div>
 
-
+    <!-- Check Legendario Shiny -->
     <div class="collapse navbar-collapse show" id="navbarCentered">
-
       <div class="d-flex justify-content-center gap-3 mb-2">
         <div class="form-check form-switch">
           <input class="form-check-input" type="checkbox" id="legendary" (change)="toggleLegendaryMode($event)" />
@@ -30,6 +85,7 @@
       </div>
     </div>
 
+    <!-- Busqueda ativa Pokemons -->
     <form class="" role="search" (submit)="preventFormSubmit($event)">
 
       <div class="input-group mb-3">
