@@ -15,7 +15,7 @@
   />
 
   <div class="card-body text-center">
-    <h4 class="card-title fw-bold">{{ pokemon().name | titlecase }}</h4>
+    <h4 class="card-title fw-bold mb-2">{{ pokemon().name | titlecase }}</h4>
 
     <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
 
@@ -35,7 +35,7 @@
     </div>
 
     <!-- Botón toggle con método -->
-    <button class="btn btn-outline-secondary btn-sm" (click)="toggleStats()">
+    <button class="btn btn-outline-secondary mb-1" (click)="toggleStats()">
       {{ showStats() ? "Ocultar Stats" : "Mostrar Stats" }}
     </button>
   </div>

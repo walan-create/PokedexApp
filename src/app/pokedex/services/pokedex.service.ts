@@ -14,7 +14,7 @@ const SESSION_STORAGE_KEY = 'pokemons';
 @Injectable({ providedIn: 'root' })
 export class PokedexService {
   private http = inject(HttpClient);
-
+  
   private requestedTypes = new Set<string>(); // Rastrea los tipos ya solicitados
 
   allPokemons = signal<PokemonApp[]>(this.loadFromSessionStorage()); // Carga inicial desde sessionStorage
@@ -82,7 +82,7 @@ export class PokedexService {
    * @param query - El tipo de Pokémon a buscar.
    */
   searchPokemonsByType(query: string): void {
-    
+
     if (this.requestedTypes.has(query)) {
       // Filtra los Pokémon por tipo desde la lista `allPokemons`
       const filteredByType = this.allPokemons().filter((pokemon) =>
