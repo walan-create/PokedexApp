@@ -1,6 +1,6 @@
 export interface PokemonApp {
   name: string;
-  type: string[];
+  types: string[];
   base_experience: number;
   stats: {
     hp: number;

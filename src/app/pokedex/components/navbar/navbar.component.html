@@ -1,112 +1,140 @@
-<nav class="navbar navbar-expand-lg border-bottom py-3 bg-light shadow-sm">
-  <div class="container-fluid d-flex flex-column align-items-center text-center">
+<nav class="navbar navbar-expand-lg border-bottom py-3 bg-light shadow-sm border-2"
+  [class.border-secondary]="'all' ===   this.pokedexService.selectedType()"
+  [class.border-primary-subtle]="'water' ===   this.pokedexService.selectedType()"
+  [class.border-danger-subtle]="'fire' ===   this.pokedexService.selectedType()"
+  [class.border-info]="'flying' ===   this.pokedexService.selectedType()"
+  [class.border-warning]="'electric' ===  this.pokedexService.selectedType()"
+  [class.border-dark-subtle]="'ground' ===   this.pokedexService.selectedType()"
+  [class.border-success-subtle]="'grass' ===   this.pokedexService.selectedType()"
+  [class.border-dark-subtle]="' psychic' ===   this.pokedexService.selectedType()"
+  >
 
-
-    <img src="/assets/logo/logo.png" alt="logo" style="height: 250px;" class="mb-5" />
+  <div
+    class="container-fluid d-flex flex-column align-items-center text-center"
+  >
+    <img
+      src="/assets/logo/logo.png"
+      alt="logo"
+      style="height: 200px"
+      class="mb-5"
+    />
 
     <!-- Botones tipo -->
     <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
       <button
         class="btn"
-        [class.btn-secondary]="selectedType === 'all'"
-        [class.btn-outline-secondary]="selectedType !== 'all'"
-        (click)="onSearchType('all')">
+        [class.btn-secondary]="this.pokedexService.selectedType() === 'all'"
+        [class.btn-outline-secondary]="
+          this.pokedexService.selectedType() !== 'all'
+        "
+        (click)="onSearchType('all')"
+      >
         Todos
       </button>
+
+      @for (type of pokemonTypes; track $index) {
       <button
-        class="btn rounded-circle"
-        [class.btn-primary]="selectedType === 'water'"
-        [class.btn-outline-primary]="selectedType !== 'water'"
-        (click)="onSearchType('water')"
-        style="width: 50px; height: 50px; padding: 0;">
-        <img src="/assets/type-icons/water.png" alt="Water" class="img-fluid" style="max-height: 32px;">
+        class="btn rounded-circle p-0"
+        [class.btn-outline-primary]="'water' === type.name"
+        [class.btn-outline-danger]="'fire' === type.name"
+        [class.btn-outline-info]="'flying' === type.name"
+        [class.btn-outline-warning]="'electric' === type.name"
+        [class.btn-outline-dark]="'ground' === type.name"
+        [class.btn-outline-success]="'grass' === type.name"
+        [class.btn-outline-secondary]="'psychic' === type.name"
+        [class.btn-primary]="
+          'water' === type.name &&
+          type.name === this.pokedexService.selectedType()
+        "
+        [class.btn-danger]="
+          'fire' === type.name &&
+          type.name === this.pokedexService.selectedType()
+        "
+        [class.btn-info]="
+          'flying' === type.name &&
+          type.name === this.pokedexService.selectedType()
+        "
+        [class.btn-warning]="
+          'electric' === type.name &&
+          type.name === this.pokedexService.selectedType()
+        "
+        [class.btn-dark]="
+          'ground' === type.name &&
+          type.name === this.pokedexService.selectedType()
+        "
+        [class.btn-success]="
+          'grass' === type.name &&
+          type.name === this.pokedexService.selectedType()
+        "
+        [class.btn-secondary]="
+          'psychic' === type.name &&
+          type.name === this.pokedexService.selectedType()
+        "
+        (click)="onSearchType(type.name)"
+        [style.width.px]="50"
+        [style.height.px]="50"
+      >
+        <img
+          [src]="type.icon"
+          [alt]="type.name"
+          class="img-fluid"
+          style="max-height: 32px"
+        />
       </button>
-      <button
-        class="btn rounded-circle"
-        [class.btn-danger]="selectedType === 'fire'"
-        [class.btn-outline-danger]="selectedType !== 'fire'"
-        (click)="onSearchType('fire')"
-        style="width: 50px; height: 50px; padding: 0;">
-        <img src="/assets/type-icons/fire.png" alt="Fire" class="img-fluid" style="max-height: 32px;">
-      </button>
-      <button
-        class="btn rounded-circle"
-        [class.btn-info]="selectedType === 'flying'"
-        [class.btn-outline-info]="selectedType !== 'flying'"
-        (click)="onSearchType('flying')"
-        style="width: 50px; height: 50px; padding: 0;">
-        <img src="/assets/type-icons/flying.png" alt="Flying" class="img-fluid" style="max-height: 32px;">
-      </button>
-      <button
-        class="btn rounded-circle"
-        [class.btn-warning]="selectedType === 'electric'"
-        [class.btn-outline-warning]="selectedType !== 'electric'"
-        (click)="onSearchType('electric')"
-        style="width: 50px; height: 50px; padding: 0;">
-        <img src="/assets/type-icons/electric.png" alt="Electric" class="img-fluid" style="max-height: 32px;">
-      </button>
-      <button
-        class="btn rounded-circle"
-        [class.btn-dark]="selectedType === 'ground'"
-        [class.btn-outline-dark]="selectedType !== 'ground'"
-        (click)="onSearchType('ground')"
-        style="width: 50px; height: 50px; padding: 0;">
-        <img src="/assets/type-icons/ground.png" alt="Ground" class="img-fluid" style="max-height: 32px;">
-      </button>
-      <button
-        class="btn rounded-circle"
-        [class.btn-success]="selectedType === 'grass'"
-        [class.btn-outline-success]="selectedType !== 'grass'"
-        (click)="onSearchType('grass')"
-        style="width: 50px; height: 50px; padding: 0;">
-        <img src="/assets/type-icons/grass.png" alt="Grass" class="img-fluid" style="max-height: 32px;">
-      </button>
-      <button
-        class="btn rounded-circle"
-        [class.btn-secondary]="selectedType === 'psychic'"
-        [class.btn-outline-secondary]="selectedType !== 'psychic'"
-        (click)="onSearchType('psychic')"
-        style="width: 50px; height: 50px; padding: 0;">
-        <img src="/assets/type-icons/psychic.png" alt="Psychic" class="img-fluid" style="max-height: 32px;">
-      </button>
+      }
     </div>
 
-    <!-- Check Legendario Shiny -->
-    <div class="collapse navbar-collapse show" id="navbarCentered">
-      <div class="d-flex justify-content-center gap-3 mb-2">
+    <!-- Modo Legendario y Shiny -->
+    <div class="collapse navbar-collapse show mb-2" id="navbarCentered">
+      <div class="d-flex justify-content-center gap-5 mb-3 align-items-center">
+        <!-- Modo Legendario -->
         <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" id="legendary" (change)="toggleLegendaryMode($event)" />
-          <label class="form-check-label" for="legendary">Legendary</label>
+          <input
+            class="form-check-input custom-switch"
+            type="checkbox"
+            id="legendary"
+            (change)="toggleLegendaryMode($event)"
+          />
+          <label class="form-check-label custom-label" for="legendary"
+            >Legendario</label
+          >
         </div>
+
+        <!-- Modo Shiny -->
         <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" id="shiny" (change)="toggleShinyMode($event)" />
-          <label class="form-check-label" for="shiny">Shiny</label>
+          <input
+            class="form-check-input custom-switch"
+            type="checkbox"
+            id="shiny"
+            (change)="toggleShinyMode($event)"
+          />
+          <label class="form-check-label custom-label" for="shiny">Shiny</label>
         </div>
       </div>
     </div>
 
     <!-- Busqueda ativa Pokemons -->
-    <form class="" role="search" (submit)="preventFormSubmit($event)">
-
-      <div class="input-group mb-3">
-        <input
-        type="text"
-        class="form-control"
-        placeholder="Busca un pokemón"
-        aria-label="Busca un pokemón"
-        aria-describedby="button-addon2"
-        (keyup)="onSearch(txtSearch.value)"
-        #txtSearch
+    <form role="search" (submit)="preventFormSubmit($event)">
+      <div class="d-flex align-items-center gap-3 mb-2">
+        <div
+          class="input-group shadow-sm rounded-pill overflow-hidden flex-grow-1"
         >
-        <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="onSearch(txtSearch.value)">Buscar</button>
-      </div>
+          <input
+            type="text"
+            class="form-control border-0 ps-4"
+            placeholder="Busca un pokemón"
+            aria-label="Busca un pokemón"
+            (keyup)="onSearch(txtSearch.value)"
+            #txtSearch
+          />
+          <span class="badge bg-info text-dark fs-6 px-3 py-2">
+            {{ this.pokedexService.filteredPokemons().length}} resultados
+          </span>
+        </div>
 
+      </div>
     </form>
 
-
   </div>
+
 </nav>
-
-
-
-

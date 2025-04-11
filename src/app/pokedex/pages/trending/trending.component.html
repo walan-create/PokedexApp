@@ -1,10 +1,18 @@
-<div class="py-5">
+<div
+  class="py-4"
+  [class.bg-primary-subtle]="'water' ===   this.pokedexService.selectedType()"
+  [class.bg-danger-subtle]="'fire' ===   this.pokedexService.selectedType()"
+  [class.bg-info-subtle]="'flying' ===   this.pokedexService.selectedType()"
+  [class.bg-warning-subtle]="'electric' ===  this.pokedexService.selectedType()"
+  [class.bg-dark-subtle]="'ground' ===   this.pokedexService.selectedType()"
+  [class.bg-success-subtle]="'grass' ===   this.pokedexService.selectedType()"
+  [class.bg-secondary-subtle]="'psychic' ===   this.pokedexService.selectedType() || 'all' ===   this.pokedexService.selectedType()"
+>
   <!-- Pasa como parametro al hijo una lista de PokemonApp
    y un booleano del shiny mode  -->
   <list
-  [pokemonsApp]="pokedexService.filteredPokemons()"
-  [shinyMode]="pokedexService.shinyMode()"
-  [legendaryMode]="pokedexService.legendaryMode()"
+    [pokemonsApp]="pokedexService.filteredPokemons()"
+    [shinyMode]="pokedexService.shinyMode()"
+    [legendaryMode]="pokedexService.legendaryMode()"
   />
-
 </div>

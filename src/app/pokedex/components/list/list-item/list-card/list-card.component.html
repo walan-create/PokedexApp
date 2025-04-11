@@ -19,7 +19,7 @@
 
     <div class="d-flex justify-content-center align-items-center gap-2 mb-2">
 
-      @for (type of pokemon().type; track $index) {
+      @for (type of pokemon().types; track $index) {
         <img
         [src]="'/assets/type-icons/' + type + '.png'"
         [alt]="type"
